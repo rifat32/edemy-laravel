@@ -42,6 +42,8 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
         $role = auth()->user()->role;
+        $role = unserialize($role);
+        return $role;
         auth()->user()->role = unserialize($role);
 
         return response()->json(['user' => auth()->user(), 'token' => $accessToken,   "ok" => true], 200);
