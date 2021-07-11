@@ -10,12 +10,7 @@ class CourseController extends Controller
 {
     public function uploadImage(Request $request)
     {
-        // return response()->json([
-        //     "image" => "gggg"
-        // ]);
-        // $request->validate([
-        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        // ]);
+
 
         $img = $request->file('image');
         if ($img !== null) {
