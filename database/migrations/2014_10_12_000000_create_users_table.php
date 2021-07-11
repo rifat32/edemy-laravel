@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('a:1:{i:0;a:1:{i:0;s:10:\"subscriber\";}}');
+            $table->string('bikashNumber')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

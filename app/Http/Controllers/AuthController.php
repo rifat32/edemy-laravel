@@ -16,18 +16,18 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
         ]);
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all(), 'status' => 404]);
-            return response(['errors' => $validator->errors()->all()], 422);
+
+            return response(['errors' => $validator->errors()->all(), 'status' => 422]);
         }
         $request['password'] = Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
-        $user = User::create($request->toArray());
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-        $response = ['token' => $token];
-        return response($response, 200);
+        User::create($request->toArray());
+
+
+        return response(["ok" => true], 200);
     }
     public function login(Request $request)
     {
@@ -37,11 +37,18 @@ class AuthController extends Controller
         ]);
 
         if (!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials']);
+            return response(['message' => 'Invalid Credentials', 'status' => 422]);
         }
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        auth()->user()->role = unserialize(auth()->user()->role);
 
-        return response()->json(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response()->json(['user' => auth()->user(), 'token' => $accessToken,   "ok" => true], 200);
+    }
+    public function getCurrentUser(Request $request)
+    {
+        $user = $request->user();
+        $user->role = unserialize($user->role);
+        return response()->json(["ok" => true, "user" => $user], 200);
     }
 }

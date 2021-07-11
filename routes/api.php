@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\CourseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,13 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::middleware(['auth:api'])->group(function () {
+    Route::get('/user', [AuthController::class, 'getCurrentUser']);
+    Route::post('/make-instructor', [InstructorController::class, 'makeInstructor']);
+    Route::get('/current-instructor', [InstructorController::class, 'currentInstructor']);
+    Route::post('/course/upload-image', [CourseController::class, 'uploadImage']);
+    Route::post('/course/remove-image', [CourseController::class, 'deleteImage']);
+});

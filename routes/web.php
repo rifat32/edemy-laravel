@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/test', function () {
-    $mainDisk = Storage::disk('google')->put('tefffst.txt', "hellow world");
-
+    $meta = Storage::disk('google')->allFiles();
+    //$meta = Storage::disk('google')->delete("1-aA8OJQk3l_3GruoLZFh_z8KDIw0M07K");
+    dd($meta);
     dd("done");
 });
+Route::post(
+    '/course/upload-image',
+    [CourseController::class, 'uploadImage']
+);
