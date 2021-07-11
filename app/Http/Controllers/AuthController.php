@@ -42,16 +42,18 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
         $role = auth()->user()->role;
-        $role = unserialize($role);
-        return $role;
-        auth()->user()->role = unserialize($role);
+        $roleArr = explode(" ", $role);
+
+        auth()->user()->role = $roleArr;
 
         return response()->json(['user' => auth()->user(), 'token' => $accessToken,   "ok" => true], 200);
     }
     public function getCurrentUser(Request $request)
     {
         $user = $request->user();
-        $user->role = unserialize($user->role);
+        $role = $user->role;
+        $roleArr = explode(" ", $role);
+        $user->role = $roleArr;
         return response()->json(["ok" => true, "user" => $user], 200);
     }
 }
