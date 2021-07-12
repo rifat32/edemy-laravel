@@ -54,7 +54,7 @@ class CourseController extends Controller
             if ($paid) {
                 $price = $request->price;
             } else {
-                $price = 0;
+                $price = 0.0;
             }
             $user_id = $request->user()->id;
             DB::table('courses')
