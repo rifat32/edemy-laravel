@@ -32,3 +32,5 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('/instructor-courses', [CourseController::class, 'allCourses']);
     });
 });
+Route::post('/send-token', [AuthController::class, 'sendToken']);
+Route::post('/verify-token', [AuthController::class, 'verifyToken']);
