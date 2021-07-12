@@ -24,6 +24,11 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/user', [AuthController::class, 'getCurrentUser']);
     Route::post('/make-instructor', [InstructorController::class, 'makeInstructor']);
     Route::get('/current-instructor', [InstructorController::class, 'currentInstructor']);
-    Route::post('/course/upload-image', [CourseController::class, 'uploadImage']);
-    Route::post('/course/remove-image', [CourseController::class, 'deleteImage']);
+    // instructor middleware
+    Route::middleware(["instructor"])->group(function () {
+        Route::post('/course/upload-image', [CourseController::class, 'uploadImage']);
+        Route::post('/course/remove-image', [CourseController::class, 'deleteImage']);
+        Route::post('/course', [CourseController::class, 'createCourse']);
+        Route::get('/instructor-courses', [CourseController::class, 'allCourses']);
+    });
 });
