@@ -11,15 +11,23 @@ class CourseController extends Controller
     public function uploadImage(Request $request)
     {
 
-
+        $user = $request->user();
         $img = $request->file('image');
         if ($img !== null) {
             $fileName = time() . '.' . $request->image->extension();
             Storage::disk('google')->put($fileName, file_get_contents($img->getRealPath()), "public");
             $image = Storage::disk('google')->url($fileName);
+            parse_str(parse_url($image, PHP_URL_QUERY), $array);
+            $imageId =  $array["id"];
+            DB::table('media')
+                ->insert([
+                    "link" => $imageId,
+                    "instructor" => $user->email
+                ]);
 
             return response()->json([
-                "image" => $image
+                "image" => $image,
+                "imageId" => $imageId
             ]);
         }
         return response()->json([
@@ -29,8 +37,19 @@ class CourseController extends Controller
     public function deleteImage(Request $request)
     {
         $imageId = $request->imageId;
-        $success =   Storage::disk('google')->delete($imageId);
-        return response()->json(["ok" => $success]);
+        $user = $request->user();
+        $mediaQuery =  DB::table('media')
+            ->where([
+                "link" => $imageId,
+                "instructor" => $user->email
+            ]);
+        if ($mediaQuery->exists()) {
+            $success =   Storage::disk('google')->delete($imageId);
+            return response()->json(["ok" => $success]);
+        } else {
+
+            return response()->json(["message" => "do not cheat"], 401);
+        }
     }
     public function createCourse(Request $request)
     {
@@ -97,5 +116,18 @@ class CourseController extends Controller
         return response()->json([
             "courses" => $courses
         ], 200);
+    }
+    public function singleCourse(Request $request, $slug)
+    {
+        $user_id = $request->user()->id;
+        $courses = DB::table('courses')
+            ->where([
+                "instructor_id" => $user_id,
+                "slug" => $slug
+            ])
+            ->first();
+        return response()->json([
+            "courses" => $courses
+        ]);
     }
 }

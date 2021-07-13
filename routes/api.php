@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/course/remove-image', [CourseController::class, 'deleteImage']);
         Route::post('/course', [CourseController::class, 'createCourse']);
         Route::get('/instructor-courses', [CourseController::class, 'allCourses']);
+        Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);
+        Route::post('/courses/upload-video', [LessonController::class, 'uploadVideo']);
     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
