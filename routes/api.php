@@ -32,7 +32,9 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/course', [CourseController::class, 'createCourse']);
         Route::get('/instructor-courses', [CourseController::class, 'allCourses']);
         Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);
-        Route::post('/courses/upload-video', [LessonController::class, 'uploadVideo']);
+        Route::post('/course/upload-video', [LessonController::class, 'uploadVideo']);
+        Route::post('/course/remove-video', [LessonController::class, 'removeVideo']);
+        Route::post('/course/lesson', [LessonController::class, 'createLesson']);
     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);

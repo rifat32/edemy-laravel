@@ -21,6 +21,7 @@ class instructorMiddleware
         $roleArr = explode(" ", $role);
 
         $instructor = in_array("instructor", $roleArr);
+
         if (!$instructor) {
             return response()->json(["message" => "You are not a instructor"], 403);
         }

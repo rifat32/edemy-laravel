@@ -45,6 +45,7 @@ class CourseController extends Controller
             ]);
         if ($mediaQuery->exists()) {
             $success =   Storage::disk('google')->delete($imageId);
+            $mediaQuery->delete();
             return response()->json(["ok" => $success]);
         } else {
 
@@ -126,8 +127,15 @@ class CourseController extends Controller
                 "slug" => $slug
             ])
             ->first();
+        $lessons = DB::table('lessons')
+            ->where([
+                "instructor_id" => $user_id,
+                "course_slug" => $slug
+            ])
+            ->get();
         return response()->json([
-            "courses" => $courses
+            "courses" => $courses,
+            "lessons" => $lessons
         ]);
     }
 }
