@@ -138,4 +138,28 @@ class CourseController extends Controller
             "lessons" => $lessons
         ]);
     }
+    public function numLesson(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $slug = $request->slug;
+        $lessons =   DB::table('lessons')
+            ->where([
+                "instructor_id" => $user_id,
+                "course_slug" => $slug
+            ])
+            ->get();
+        $number_of_lesson = count($lessons);
+        DB::table('courses')
+            ->where([
+                "instructor_id" => $user_id,
+                "slug" => $slug
+            ])
+            ->update([
+                "number_of_lessons" =>
+                $number_of_lesson
+            ]);
+        return response()->json([
+            "ok" => true
+        ]);
+    }
 }
