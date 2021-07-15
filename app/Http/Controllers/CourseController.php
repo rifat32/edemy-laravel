@@ -59,7 +59,7 @@ class CourseController extends Controller
         $slug = str_replace(" ", "-", $slug);
         $slug_exists =  DB::table('courses')
             ->where([
-                "slug" => "$slug"
+                "slug" => $slug
             ])
             ->exists();
         if ($slug_exists) {
@@ -92,6 +92,85 @@ class CourseController extends Controller
                 "message" => "course has been created successfully"
             ], 200);
         }
+    }
+    public function updateCourse(Request $request)
+    {
+        $slug = $request->slug;
+        $user_id = $request->user()->id;
+        $courseQuery = DB::table('courses')
+            ->where([
+                "instructor_id" => $user_id,
+                "slug" => $slug
+            ]);
+        if ($courseQuery->exists()) {
+            $name = $request->name;
+            $slugNew = strtolower($name);
+            $slugNew = str_replace(" ", "-", $slugNew);
+            //  if slug matches it
+            if ($slug == $slugNew) {
+                $category = $request->category;
+                $description = $request->description;
+                $image = $request->image;
+                $paid = $request->paid;
+                if ($paid) {
+                    $price = $request->price;
+                } else {
+                    $price = 0.0;
+                }
+
+                $courseQuery
+                    ->update([
+                        "description" => $description,
+                        "price" => $price,
+                        "image" => $image,
+                        "category" => $category,
+                        "paid" => $paid
+                    ]);
+                return response()->json(["message" => "course has been updated successfully"], 204);
+            }
+            // else check first slug exists or not
+            else {
+                $slug_exists =  DB::table('courses')
+                    ->where([
+                        "slug" => $slugNew
+                    ])
+                    ->exists();
+                if ($slug_exists) {
+                    return response()->json([
+                        "message" => "This name is already taken"
+                    ], 409);
+                } else {
+                    $category = $request->category;
+                    $description = $request->description;
+                    $image = $request->image;
+                    $paid = $request->paid;
+                    if ($paid) {
+                        $price = $request->price;
+                    } else {
+                        $price = 0.0;
+                    }
+                    $courseQuery
+                        ->update([
+                            "name" => $name,
+                            "slug" => $slugNew,
+                            "description" => $description,
+                            "price" => $price,
+                            "image" => $image,
+                            "category" => $category,
+                            "paid" => $paid
+                        ]);
+                    return response()->json([
+                        "message" => "course has been updated successfully"
+                    ], 204);
+                }
+            }
+        } else {
+            return response()->json([
+                "message" => "no course found"
+            ], 404);
+        }
+
+        return "update courrt se";
     }
     public function allCourses(Request $request)
     {

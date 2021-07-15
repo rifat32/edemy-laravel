@@ -36,6 +36,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/course/remove-video', [LessonController::class, 'removeVideo']);
         Route::post('/course/lesson', [LessonController::class, 'createLesson']);
         Route::post('/number-of-lesson', [CourseController::class, 'numLesson']);
+        Route::put('/course', [CourseController::class, 'updateCourse']);
     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
