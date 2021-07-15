@@ -22,6 +22,7 @@ class CreateLessonsTable extends Migration
             $table->boolean("free_preview")->default(false);
             $table->integer("course_id");
             $table->string("instructor_id");
+            $table->integer("custom_id");
             $table->timestamps();
         });
     }

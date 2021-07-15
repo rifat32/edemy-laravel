@@ -211,6 +211,7 @@ class CourseController extends Controller
                 "instructor_id" => $user_id,
                 "course_id" => $courses->id
             ])
+            ->orderBy("custom_id")
             ->get();
         return response()->json([
             "courses" => $courses,

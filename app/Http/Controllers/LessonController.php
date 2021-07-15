@@ -76,8 +76,9 @@ class LessonController extends Controller
             ]);
         if ($courseQuery->exists()) {
             if ($mediaQuery->exists()) {
-                DB::table('lessons')
-                    ->insert([
+                $lessonQuery = DB::table('lessons');
+                $lessonId =  $lessonQuery
+                    ->insertGetId([
                         "title" => $title,
                         "slug" => $lessonSlug,
                         "content" => $content,
@@ -85,6 +86,13 @@ class LessonController extends Controller
                         "slug" => $lessonSlug,
                         "course_id" => $courseId,
                         "instructor_id" => $user->id
+                    ]);
+                $lessonQuery
+                    ->where([
+                        'id' => $lessonId
+                    ])
+                    ->update([
+                        "custom_id" => $lessonId
                     ]);
                 return response()->json(["lesson" => "inserted"], 200);
             } else {
