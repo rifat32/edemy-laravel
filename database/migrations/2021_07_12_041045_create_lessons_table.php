@@ -20,7 +20,7 @@ class CreateLessonsTable extends Migration
             $table->string("content");
             $table->string("video");
             $table->boolean("free_preview")->default(false);
-            $table->string("course_slug");
+            $table->integer("course_id");
             $table->string("instructor_id");
             $table->timestamps();
         });

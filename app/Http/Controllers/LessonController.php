@@ -55,7 +55,7 @@ class LessonController extends Controller
     }
     public function createLesson(Request $request)
     {
-        $slug = $request->slug;
+        $courseId = (int) $request->id;
         $user = $request->user();
         $title = $request->title;
         $lessonSlug = strtolower($title);
@@ -66,7 +66,7 @@ class LessonController extends Controller
         $videoId =  $array["id"];
         $courseQuery =  DB::table('courses')
             ->where([
-                "slug" => $slug,
+                "id" => $courseId,
                 "instructor_id" => $user->id
             ]);
         $mediaQuery =  DB::table('media')
@@ -83,7 +83,7 @@ class LessonController extends Controller
                         "content" => $content,
                         "video" => $video,
                         "slug" => $lessonSlug,
-                        "course_slug" => $slug,
+                        "course_id" => $courseId,
                         "instructor_id" => $user->id
                     ]);
                 return response()->json(["lesson" => "inserted"], 200);

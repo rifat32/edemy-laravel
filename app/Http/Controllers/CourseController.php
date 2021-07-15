@@ -209,7 +209,7 @@ class CourseController extends Controller
         $lessons = DB::table('lessons')
             ->where([
                 "instructor_id" => $user_id,
-                "course_slug" => $slug
+                "course_id" => $courses->id
             ])
             ->get();
         return response()->json([
