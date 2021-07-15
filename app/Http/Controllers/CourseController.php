@@ -220,18 +220,18 @@ class CourseController extends Controller
     public function numLesson(Request $request)
     {
         $user_id = $request->user()->id;
-        $slug = $request->slug;
+        $courseId = $request->id;
         $lessons =   DB::table('lessons')
             ->where([
                 "instructor_id" => $user_id,
-                "course_slug" => $slug
+                "course_id" => $courseId
             ])
             ->get();
         $number_of_lesson = count($lessons);
         DB::table('courses')
             ->where([
                 "instructor_id" => $user_id,
-                "slug" => $slug
+                "id" => $courseId
             ])
             ->update([
                 "number_of_lessons" =>
