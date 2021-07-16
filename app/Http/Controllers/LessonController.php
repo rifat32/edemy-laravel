@@ -102,4 +102,30 @@ class LessonController extends Controller
             return response()->json(["message" => "do not cheat"], 401);
         }
     }
+    public function deleteLesson(Request $request)
+    {
+        $lessonId = $request->id;
+        $user = $request->user();
+        $lessonQuery = DB::table('lessons')
+            ->where([
+                'id' => $lessonId,
+                "instructor_id" => $user->id
+            ]);
+        $lesson =   $lessonQuery->get();
+
+        if (count($lesson)) {
+            parse_str(parse_url($lesson[0]->video, PHP_URL_QUERY), $array);
+            $videoId =  $array["id"];
+            DB::table('media')
+                ->where([
+                    "link" => $videoId,
+                ])
+                ->delete();
+            $lessonQuery->delete();
+            $success =   Storage::disk('google')->delete($videoId);
+            return response()->json(["ok" => $success]);
+        } else {
+            return response()->json(["message" => "do not cheat"], 401);
+        }
+    }
 }
