@@ -104,6 +104,8 @@ class LessonController extends Controller
     }
     public function deleteLesson(Request $request)
     {
+        return response()->json(["ok" => "hey"]);
+
         $lessonId = $request->id;
         $user = $request->user();
         $lessonQuery = DB::table('lessons')
