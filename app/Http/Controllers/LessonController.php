@@ -123,7 +123,17 @@ class LessonController extends Controller
                     "link" => $videoId,
                 ])
                 ->delete();
+            $courseQuery =   DB::table('courses')
+                ->where([
+                    "id" => $lesson[0]->course_id
+                ]);
+            $course =   $courseQuery->first();
+            $courseQuery
+                ->update([
+                    "number_of_lessons" => $course->number_of_lessons - 1
+                ]);
             $lessonQuery->delete();
+
             $success =   Storage::disk('google')->delete($videoId);
             return response()->json(["ok" => $success]);
         } else {
