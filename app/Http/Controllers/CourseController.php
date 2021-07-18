@@ -252,7 +252,7 @@ class CourseController extends Controller
     {
         $courseId = $request->id;
         $user_id = $request->user()->id;
-        $published = $request->id;
+        $published = $request->published;
         DB::table('courses')
             ->where([
                 "id" => $courseId,
