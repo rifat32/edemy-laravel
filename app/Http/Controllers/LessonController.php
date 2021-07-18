@@ -83,7 +83,6 @@ class LessonController extends Controller
                         "slug" => $lessonSlug,
                         "content" => $content,
                         "video" => $video,
-                        "slug" => $lessonSlug,
                         "course_id" => $courseId,
                         "instructor_id" => $user->id
                     ]);
@@ -95,6 +94,60 @@ class LessonController extends Controller
                         "custom_id" => $lessonId
                     ]);
                 return response()->json(["lesson" => "inserted"], 200);
+            } else {
+                return response()->json(["message" => "do not cheat"], 401);
+            }
+        } else {
+            return response()->json(["message" => "do not cheat"], 401);
+        }
+    }
+    public function updateLesson(Request $request)
+    {
+        $lessonId = $request->id;
+        $courseId = $request->course_id;
+        $user = $request->user();
+        $lessonQuery = DB::table('lessons')
+            ->where([
+                'id' => $lessonId,
+                "instructor_id" => $user->id,
+                "course_id" => $courseId,
+            ]);
+        $lesson =   $lessonQuery->first();
+        if (count((array)$lesson)) {
+            $video = $request->video;
+            parse_str(parse_url($video, PHP_URL_QUERY), $arrayNew);
+            $videoIdNew =  $arrayNew["id"];
+            $mediaQuery =  DB::table('media')
+                ->where([
+                    "link" => $videoIdNew,
+                    "instructor" => $user->email
+                ]);
+            if ($mediaQuery->exists()) {
+                $content = $request->content;
+                $title = $request->title;
+                $slug = strtolower($title);
+                $slug = str_replace(" ", "-", $slug);
+                $free_preview = $request->free_preview;
+                parse_str(parse_url($lesson->video, PHP_URL_QUERY), $arrayMain);
+                $videoIdMain =  $arrayMain["id"];
+                if ($videoIdMain !== $videoIdNew) {
+
+                    DB::table('media')
+                        ->where([
+                            "link" => $videoIdMain,
+                        ])
+                        ->delete();
+                    Storage::disk('google')->delete($videoIdMain);
+                }
+                $lessonQuery
+                    ->update([
+                        "title" => $title,
+                        "slug" => $slug,
+                        "content" => $content,
+                        "video" => $video,
+                        "free_preview" => $free_preview
+                    ]);
+                return response()->json(["message" => " lesson updated"], 200);
             } else {
                 return response()->json(["message" => "do not cheat"], 401);
             }
