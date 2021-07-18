@@ -39,6 +39,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/number-of-lesson', [CourseController::class, 'numLesson']);
         Route::put('/course', [CourseController::class, 'updateCourse']);
         Route::post('/lesson/delete', [LessonController::class, 'deleteLesson']);
+        Route::put('/course/publish', [CourseController::class, 'updatePublish']);
     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);

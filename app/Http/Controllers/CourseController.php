@@ -206,17 +206,23 @@ class CourseController extends Controller
                 "slug" => $slug
             ])
             ->first();
-        $lessons = DB::table('lessons')
-            ->where([
-                "instructor_id" => $user_id,
-                "course_id" => $courses->id
-            ])
-            ->orderBy("custom_id")
-            ->get();
-        return response()->json([
-            "courses" => $courses,
-            "lessons" => $lessons
-        ]);
+        if (count((array)$courses)) {
+            $lessons = DB::table('lessons')
+                ->where([
+                    "instructor_id" => $user_id,
+                    "course_id" => $courses->id
+                ])
+                ->orderBy("custom_id")
+                ->get();
+            return response()->json([
+                "courses" => $courses,
+                "lessons" => $lessons
+            ]);
+        } else {
+            return response()->json([
+                "message" => "no course found"
+            ], 404);
+        }
     }
     public function numLesson(Request $request)
     {
@@ -237,6 +243,23 @@ class CourseController extends Controller
             ->update([
                 "number_of_lessons" =>
                 $number_of_lesson
+            ]);
+        return response()->json([
+            "ok" => true
+        ]);
+    }
+    public function updatePublish(Request $request)
+    {
+        $courseId = $request->id;
+        $user_id = $request->user()->id;
+        $published = $request->id;
+        DB::table('courses')
+            ->where([
+                "id" => $courseId,
+                "instructor_id" => $user_id
+            ])
+            ->update([
+                "published" => $published
             ]);
         return response()->json([
             "ok" => true
