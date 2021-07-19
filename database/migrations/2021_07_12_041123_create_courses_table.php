@@ -24,7 +24,7 @@ class CreateCoursesTable extends Migration
             $table->boolean("published")->default(false);
             $table->boolean("paid");
             $table->integer("instructor_id");
-            $table->integer("instructor_name");
+            $table->string("instructor_name");
             $table->integer("number_of_lessons")->default(0);
             $table->timestamps();
         });
