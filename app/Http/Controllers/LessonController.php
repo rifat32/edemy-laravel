@@ -84,7 +84,8 @@ class LessonController extends Controller
                         "content" => $content,
                         "video" => $video,
                         "course_id" => $courseId,
-                        "instructor_id" => $user->id
+                        "instructor_id" => $user->id,
+                        "instructor_name" => $user->name
                     ]);
                 $lessonQuery
                     ->where([

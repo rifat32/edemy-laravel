@@ -76,7 +76,7 @@ class CourseController extends Controller
             } else {
                 $price = 0.0;
             }
-            $user_id = $request->user()->id;
+            $user = $request->user();
             DB::table('courses')
                 ->insert([
                     "name" => $name,
@@ -86,7 +86,9 @@ class CourseController extends Controller
                     "image" => $image,
                     "category" => $category,
                     "paid" => $paid,
-                    "instructor_id" =>  $user_id,
+                    "instructor_id" =>  $user->id,
+                    "instructor_name" => $user->name
+
                 ]);
             return response()->json([
                 "message" => "course has been created successfully"
