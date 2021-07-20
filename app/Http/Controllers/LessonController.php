@@ -184,7 +184,8 @@ class LessonController extends Controller
             $course =   $courseQuery->first();
             $courseQuery
                 ->update([
-                    "number_of_lessons" => $course->number_of_lessons - 1
+                    "number_of_lessons" => $course->number_of_lessons - 1,
+                    "updated_at" => \Carbon\Carbon::now(),
                 ]);
             $lessonQuery->delete();
 

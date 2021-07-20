@@ -87,7 +87,9 @@ class CourseController extends Controller
                     "category" => $category,
                     "paid" => $paid,
                     "instructor_id" =>  $user->id,
-                    "instructor_name" => $user->name
+                    "instructor_name" => $user->name,
+                    "created_at" =>  \Carbon\Carbon::now(),
+                    "updated_at" => \Carbon\Carbon::now(),
 
                 ]);
             return response()->json([
@@ -126,7 +128,8 @@ class CourseController extends Controller
                         "price" => $price,
                         "image" => $image,
                         "category" => $category,
-                        "paid" => $paid
+                        "paid" => $paid,
+                        "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
                     ]);
                 return response()->json(["message" => "course has been updated successfully"], 204);
             }
