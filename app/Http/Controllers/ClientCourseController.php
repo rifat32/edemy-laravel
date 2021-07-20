@@ -30,7 +30,7 @@ class ClientCourseController extends Controller
             $lessons = DB::table('lessons')
                 ->where([
                     "course_id" => $courses->id,
-                    "paid" => false
+                    "free_preview" => true
                 ])
                 ->orderBy("custom_id")
                 ->get();
