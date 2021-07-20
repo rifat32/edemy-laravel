@@ -32,7 +32,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/course/remove-image', [CourseController::class, 'deleteImage']);
         Route::post('/course', [CourseController::class, 'createCourse']);
         Route::get('/instructor-courses', [CourseController::class, 'allCourses']);
-        Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);
+
         Route::post('/course/upload-video', [LessonController::class, 'uploadVideo']);
         Route::post('/course/remove-video', [LessonController::class, 'removeVideo']);
         Route::post('/course/lesson', [LessonController::class, 'createLesson']);
@@ -46,4 +46,4 @@ Route::middleware(['auth:api'])->group(function () {
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);
 Route::get('all-courses', [ClientCourseController::class, 'allCourses']);
-Route::get('/client-course/{slug}', [ClientCourseController::class, 'allCourses']);
+Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);
