@@ -41,9 +41,10 @@ Route::middleware(['auth:api'])->group(function () {
         Route::put('/course', [CourseController::class, 'updateCourse']);
         Route::post('/lesson/delete ', [LessonController::class, 'deleteLesson']);
         Route::put('/course/publish', [CourseController::class, 'updatePublish']);
+        Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);
     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);
 Route::get('all-courses', [ClientCourseController::class, 'allCourses']);
-Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);
+Route::get('/client-courses/{slug}', [ClientCourseController::class, 'singleCourse']);

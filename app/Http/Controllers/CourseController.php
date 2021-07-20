@@ -201,15 +201,18 @@ class CourseController extends Controller
     }
     public function singleCourse(Request $request, $slug)
     {
+        $user = $request->user();
         $courses = DB::table('courses')
             ->where([
-                "slug" => $slug
+                "slug" => $slug,
+                'instructor_id' => $user->id
             ])
             ->first();
         if (count((array)$courses)) {
             $lessons = DB::table('lessons')
                 ->where([
-                    "course_id" => $courses->id
+                    "course_id" => $courses->id,
+                    'instructor_id' => $user->id
                 ])
                 ->orderBy("custom_id")
                 ->get();
