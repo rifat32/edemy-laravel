@@ -162,7 +162,8 @@ class CourseController extends Controller
                             "price" => $price,
                             "image" => $image,
                             "category" => $category,
-                            "paid" => $paid
+                            "paid" => $paid,
+                            "updated_at" => \Carbon\Carbon::now(),
                         ]);
                     return response()->json([
                         "message" => "course has been updated successfully"
@@ -247,7 +248,8 @@ class CourseController extends Controller
             ])
             ->update([
                 "number_of_lessons" =>
-                $number_of_lesson
+                $number_of_lesson,
+                "updated_at" => \Carbon\Carbon::now(),
             ]);
         return response()->json([
             "ok" => true
