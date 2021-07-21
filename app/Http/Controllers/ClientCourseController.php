@@ -53,7 +53,7 @@ class ClientCourseController extends Controller
                         "updated_at"
                     )
                     ->get();
-                return $lessonsPaid;
+                return array_merge($lessonsFree, $lessonsPaid);
                 $lessons = array_merge($lessonsFree, $lessonsPaid);
             } else {
                 $lessons = DB::table('lessons')
