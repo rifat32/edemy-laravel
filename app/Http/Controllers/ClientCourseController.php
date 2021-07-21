@@ -28,13 +28,34 @@ class ClientCourseController extends Controller
             ->first();
         if (count((array)$courses)) {
             if ($courses->paid) {
-                $lessons = DB::table('lessons')
+                $lessonsFree = DB::table('lessons')
                     ->where([
                         "course_id" => $courses->id,
                         "free_preview" => true
                     ])
                     ->orderBy("custom_id")
                     ->get();
+                $lessonsPaid =  DB::table('lessons')
+                    ->where([
+                        "course_id" => $courses->id,
+                        "free_preview" => false
+                    ])
+                    ->select(
+                        "id",
+                        'title',
+                        "slug",
+                        "content",
+                        "free_preview",
+                        "course_id",
+                        "instructor_id",
+                        "instructor_name",
+                        "custom_id",
+                        "created_at",
+                        "updated_at"
+                    )
+                    ->orderBy("custom_id")
+                    ->get();
+                $lessons = array_merge($lessonsFree, $lessonsPaid);
             } else {
                 $lessons = DB::table('lessons')
                     ->where([
