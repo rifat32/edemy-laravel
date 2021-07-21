@@ -150,10 +150,10 @@ class LessonController extends Controller
                     ]);
                 return response()->json(["message" => " lesson updated"], 200);
             } else {
-                return response()->json(["message" => "do not cheat"], 401);
+                return response()->json(["message" => "do not cheat line 53"], 401);
             }
         } else {
-            return response()->json(["message" => "do not cheat"], 401);
+            return response()->json(["message" => "do not cheat line 57"], 401);
         }
     }
     public function deleteLesson(Request $request)
