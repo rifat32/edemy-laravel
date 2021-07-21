@@ -33,7 +33,6 @@ class ClientCourseController extends Controller
                         "course_id" => $courses->id,
                         "free_preview" => true
                     ])
-                    ->orderBy("custom_id")
                     ->get();
                 $lessonsPaid =  DB::table('lessons')
                     ->where([
@@ -53,8 +52,8 @@ class ClientCourseController extends Controller
                         "created_at",
                         "updated_at"
                     )
-                    ->orderBy("custom_id")
                     ->get();
+                return $lessonsFree;
                 $lessons = array_merge($lessonsFree, $lessonsPaid);
             } else {
                 $lessons = DB::table('lessons')
