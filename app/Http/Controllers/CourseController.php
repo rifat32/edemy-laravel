@@ -287,4 +287,35 @@ class CourseController extends Controller
             return response()->json(["ok" => false]);
         }
     }
+    public function freeEnrollment(Request $request)
+    {
+        $slug = $request->slug;
+
+        $courseQuery =   DB::table('courses')
+            ->where([
+                "slug" => $slug
+            ]);
+        $course  =    $courseQuery->first();
+        if (!$course->paid) {
+            $user = $request->user();
+            $userQuery =  DB::table('users')
+                ->where([
+                    "id" => $user->id,
+                ]);
+            $userDB = $userQuery->first();
+            $courses = $userDB->courses;
+            $coursesArr = explode(" ", $courses);
+            if (in_array($slug, $coursesArr)) {
+                return response()->json(["duplicate"], 401);
+            } else {
+                $userQuery
+                    ->update([
+                        "courses" => $courses . " " . $slug
+                    ]);
+                return response()->json(["ok" => true]);
+            }
+        } else {
+            return response()->json(["message" => "bad request", 400]);
+        }
+    }
 }

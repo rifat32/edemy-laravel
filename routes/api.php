@@ -42,7 +42,8 @@ Route::middleware(['auth:api'])->group(function () {
         Route::post('/lesson/delete ', [LessonController::class, 'deleteLesson']);
         Route::put('/course/publish', [CourseController::class, 'updatePublish']);
         Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);
-        Route::get('/user-courses/{slug}', [CourseController::class, 'checkEnrollment']);
+        Route::get('/check-enrollment/{slug}', [CourseController::class, 'checkEnrollment']);
+        Route::post('/free-enrollment/{slug}', [CourseController::class, 'freeEnrollment']);
     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
