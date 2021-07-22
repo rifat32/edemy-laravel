@@ -274,7 +274,7 @@ class CourseController extends Controller
     }
     public function checkEnrollment(Request $request, $slug)
     {
-        $user = $request->user;
+        $user = $request->user();
         $userDB =  DB::table('users')
             ->where([
                 "id" => $user->id,
