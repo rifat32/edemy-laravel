@@ -45,6 +45,7 @@ Route::middleware(['auth:api'])->group(function () {
     });
     Route::get('/check-enrollment/{slug}', [CourseController::class, 'checkEnrollment']);
     Route::post('/free-enrollment', [CourseController::class, 'freeEnrollment']);
+    Route::post('/paid-enrollment', [CourseController::class, 'paidEnrollment']);
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);

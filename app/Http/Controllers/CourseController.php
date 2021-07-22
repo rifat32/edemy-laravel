@@ -306,12 +306,42 @@ class CourseController extends Controller
             $courses = $userDB->courses;
             $coursesArr = explode(" ", $courses);
             if (in_array($slug, $coursesArr)) {
-                return response()->json(["duplicate"], 401);
+                return response()->json(["message" => "You already enrolled"], 409);
             } else {
                 $userQuery
                     ->update([
                         "courses" => $courses . " " . $slug
                     ]);
+                return response()->json(["ok" => true]);
+            }
+        } else {
+            return response()->json(["message" => "bad request", 400]);
+        }
+    }
+    public function paidEnrollment(Request $request)
+    {
+        $slug = $request->slug;
+
+        $courseQuery =   DB::table('courses')
+            ->where([
+                "slug" => $slug
+            ]);
+        $course  =    $courseQuery->first();
+        if ($course->paid) {
+            $user = $request->user();
+            $userQuery =  DB::table('users')
+                ->where([
+                    "id" => $user->id,
+                ]);
+            $userDB = $userQuery->first();
+            $courses = $userDB->courses;
+            $coursesArr = explode(" ", $courses);
+            if (in_array($slug, $coursesArr)) {
+                return response()->json(["message" => "You already enrolled"], 409);
+            } else {
+                // first should check wheither payment exist or not
+                //  should insert into payment
+                // {status:pending,paument_details,course_slug,price:course->price,contact_info}
                 return response()->json(["ok" => true]);
             }
         } else {
