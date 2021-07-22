@@ -272,4 +272,19 @@ class CourseController extends Controller
             "ok" => true
         ]);
     }
+    public function checkEnrollment(Request $request, $slug)
+    {
+        $user = $request->user;
+        $userDB =  DB::table('users')
+            ->where([
+                "id" => $user->id,
+            ])->first();
+        $courses = $userDB->courses;
+        $coursesArr = explode(" ", $courses);
+        if (in_array($slug, $coursesArr)) {
+            return response()->json(["ok", true]);
+        } else {
+            return response()->json(["ok", false]);
+        }
+    }
 }

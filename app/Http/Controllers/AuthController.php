@@ -52,10 +52,14 @@ class AuthController extends Controller
     public function getCurrentUser(Request $request)
     {
         $user = $request->user();
-        $role = $user->role;
+        $userDB =  DB::table('users')
+            ->where([
+                "id" => $user->id,
+            ])->first();
+        $role = $userDB->role;
         $roleArr = explode(" ", $role);
-        $user->role = $roleArr;
-        return response()->json(["ok" => true, "user" => $user], 200);
+        $userDB->role = $roleArr;
+        return response()->json(["ok" => true, "user" => $userDB], 200);
     }
     public function sendToken(Request $request)
     {
