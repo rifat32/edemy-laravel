@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('role')->default('subscriber');
             $table->string('bikashNumber')->nullable();
+            $table->string('courses')->nullable();
             $table->string('password_reset_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
