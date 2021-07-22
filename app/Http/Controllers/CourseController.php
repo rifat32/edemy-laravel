@@ -282,9 +282,9 @@ class CourseController extends Controller
         $courses = $userDB->courses;
         $coursesArr = explode(" ", $courses);
         if (in_array($slug, $coursesArr)) {
-            return response()->json(["ok", true]);
+            return response()->json(["ok" => true]);
         } else {
-            return response()->json(["ok", false]);
+            return response()->json(["ok" => false]);
         }
     }
 }
