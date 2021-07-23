@@ -54,7 +54,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         "instructor" => \App\Http\Middleware\instructorMiddleware::class,
-        // "admin" => \App\Http\Middleware\AdminMiddleware::class,
+        "admin" => \App\Http\Middleware\AdminMiddleware::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
