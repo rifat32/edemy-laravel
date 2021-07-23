@@ -16,10 +16,10 @@ class AdminController extends Controller
     }
     public function makeAdmin(Request $request)
     {
-        $user = $request->user();
+        $email = $request->email;
         $userQuery = DB::table('users')
             ->where([
-                "email" => $user->email,
+                "email" => $email,
             ]);
         $userDB =  $userQuery->get();
         $role = $userDB[0]->role;
