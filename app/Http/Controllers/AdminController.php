@@ -37,7 +37,6 @@ class AdminController extends Controller
     }
     public function currentAdmin(Request $request)
     {
-        return "hey";
         $user = $request->user();
         $userDB =  DB::table('users')
             ->where([
