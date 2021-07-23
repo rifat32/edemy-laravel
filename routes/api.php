@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -26,6 +27,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/user', [AuthController::class, 'getCurrentUser']);
     Route::post('/make-instructor', [InstructorController::class, 'makeInstructor']);
     Route::get('/current-instructor', [InstructorController::class, 'currentInstructor']);
+    Route::post('/make-admin', [AdminController::class, 'makeAdmin']);
     // instructor middleware
     Route::middleware(["instructor"])->group(function () {
         Route::post('/course/upload-image', [CourseController::class, 'uploadImage']);
@@ -52,4 +54,4 @@ Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);
 Route::get('all-courses', [ClientCourseController::class, 'allCourses']);
 Route::get('/client-courses/{slug}', [ClientCourseController::class, 'singleCourse']);
-Route::post('/confirm-payment', [CourseController::class, 'confirmPayment']);
+Route::post('/confirm-payment', [AdminController::class, 'confirmPayment']);

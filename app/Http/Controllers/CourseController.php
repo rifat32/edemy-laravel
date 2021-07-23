@@ -377,9 +377,6 @@ class CourseController extends Controller
                     ]);
                     return response()->json(["ok" => true]);
                 }
-
-                // {status:pending,paument_details,course_slug,price:course->price,contact_info}
-
             }
         } else {
             return response()->json(["message" => "bad request", 400]);
@@ -403,8 +400,5 @@ class CourseController extends Controller
                 "message" => "no course found"
             ], 404);
         }
-    }
-    public function confirmPayment(Request $request)
-    {
     }
 }
