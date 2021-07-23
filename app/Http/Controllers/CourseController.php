@@ -284,7 +284,19 @@ class CourseController extends Controller
         if (in_array($slug, $coursesArr)) {
             return response()->json(["ok" => true]);
         } else {
-            return response()->json(["ok" => false]);
+            $payment =   DB::table('payments')
+                ->where([
+                    "course_slug" => $slug,
+                    "user_id" => $user->id
+                ])
+                ->first();
+            if (count((array)$payment)) {
+                if ($payment->status == "pending") {
+                    return response()->json(["ok" => false, "pending" => true]);
+                }
+            } else {
+                return response()->json(["ok" => false, "pending" => false]);
+            }
         }
     }
     public function freeEnrollment(Request $request)
@@ -340,12 +352,29 @@ class CourseController extends Controller
                 return response()->json(["message" => "You already enrolled"], 409);
             } else {
                 // first should check wheither payment exist or not
-                DB::table('payments')
+                $payment =   DB::table('payments')
                     ->where([
                         "course_slug" => $slug,
-
+                        "user_id" => $user->id
+                    ])
+                    ->first();
+                if (count((array)$payment)) {
+                    if ($payment->status == "pending") {
+                        return response()->json(["message" => "You already requested for enrollment"], 409);
+                    }
+                } else {
+                    //  should insert into payment
+                    $payment_details = $request->payment_details;
+                    $contact_info = $request->contact_info;
+                    DB::table('payments')->insert([
+                        "payment_details" => $payment_details,
+                        "course_slug" => $slug,
+                        "price" => $course->price,
+                        "contact_info" => $contact_info,
+                        "user_id" => $user->id
                     ]);
-                //  should insert into payment
+                }
+
                 // {status:pending,paument_details,course_slug,price:course->price,contact_info}
                 return response()->json(["ok" => true]);
             }
