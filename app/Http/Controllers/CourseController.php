@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Google\Service\CloudSourceRepositories\Repo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Builder\Function_;
 
 class CourseController extends Controller
 {
@@ -373,13 +375,36 @@ class CourseController extends Controller
                         "contact_info" => $contact_info,
                         "user_id" => $user->id
                     ]);
+                    return response()->json(["ok" => true]);
                 }
 
                 // {status:pending,paument_details,course_slug,price:course->price,contact_info}
-                return response()->json(["ok" => true]);
+
             }
         } else {
             return response()->json(["message" => "bad request", 400]);
         }
+    }
+    public function singleCoursePayment(Request $request, $slug)
+    {
+        $courses = DB::table('courses')
+            ->where([
+                "slug" => $slug,
+                "published" => true
+            ])
+            ->first();
+        if (count((array)$courses)) {
+
+            return response()->json([
+                "courses" => $courses,
+            ]);
+        } else {
+            return response()->json([
+                "message" => "no course found"
+            ], 404);
+        }
+    }
+    public function confirmPayment(Request $request)
+    {
     }
 }
