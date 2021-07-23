@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('bikashNumber')->nullable();
             $table->string('courses')->nullable();
             $table->string('password_reset_token')->nullable();
-            $table->float('balance')->default(0);
+            $table->float('balance')->default(0.00);
             $table->rememberToken();
             $table->timestamps();
         });
