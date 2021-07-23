@@ -25,6 +25,7 @@ class AdminController extends Controller
         $id = $request->id;
         $user_id = $request->user_id;
         $course_slug = $request->course_slug;
+        $price = $request->price;
         $paypentQuery =   DB::table('payments')
             ->where([
                 "id" => $id
@@ -43,9 +44,19 @@ class AdminController extends Controller
             ->update([
                 "courses" => $courses . " " . $course_slug
             ]);
-
         // it will update instructors balance,
+        $coursesQuery =  DB::table('courses')
+            ->where([
+                "slug" => $course_slug,
+            ]);
+        $course = $coursesQuery->first();
+
+        $coursesQuery->update([
+            "total_enrollment" => $course->total_enrollment + 1,
+            "balance" => $course->balance + (($price * 70) / 100)
+        ]);
         // it will update courses table total_enrollment, total_earning_course
+
     }
     public function makeAdmin(Request $request)
     {
