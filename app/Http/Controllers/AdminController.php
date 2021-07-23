@@ -24,7 +24,7 @@ class AdminController extends Controller
         //  it will update by payment id
         // it will update users courses array,
         // it will update instructors balance,
-        // it will update courses table totalCell
+        // it will update courses table total_enrollment, total_earning_course
     }
     public function makeAdmin(Request $request)
     {
