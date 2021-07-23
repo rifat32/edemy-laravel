@@ -21,7 +21,7 @@ class CreatePaymentsTable extends Migration
             $table->string("course_slug");
             $table->string("price");
             $table->string("contact_info");
-            $table->number("user_id");
+            $table->integer("user_id");
             $table->timestamps();
         });
     }

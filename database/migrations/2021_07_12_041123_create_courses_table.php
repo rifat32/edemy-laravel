@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
             $table->string("name");
             $table->string("slug");
             $table->string("description");
-            $table->float("price")->default(9.99);
+            $table->float("price")->default(99.99);
             $table->string("image");
             $table->string("category");
             $table->boolean("published")->default(false);
