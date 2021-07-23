@@ -50,9 +50,10 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/client-courses-payment/{slug}', [CourseController::class, 'singleCoursePayment']);
     Route::post('/make-admin', [AdminController::class, 'makeAdmin']);
     Route::get('/current-admin', [AdminController::class, 'currentAdmin']);
-    // admin middleware
-    Route::middleware(["admin"])->group(function () {
-    });
+    // // admin middleware
+    //     Route::middleware(["instructor"])->group(function () {
+
+    //     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);
