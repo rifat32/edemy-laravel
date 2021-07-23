@@ -340,6 +340,11 @@ class CourseController extends Controller
                 return response()->json(["message" => "You already enrolled"], 409);
             } else {
                 // first should check wheither payment exist or not
+                DB::table('payments')
+                    ->where([
+                        "course_slug" => $slug,
+
+                    ]);
                 //  should insert into payment
                 // {status:pending,paument_details,course_slug,price:course->price,contact_info}
                 return response()->json(["ok" => true]);
