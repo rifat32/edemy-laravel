@@ -61,7 +61,7 @@ class AdminController extends Controller
                 "id" => $course->instructor_id,
             ]);
         $instructor = $instructorQuery->first();
-        $coursesQuery->update([
+        $instructorQuery->update([
             "balance" => $instructor->balance + (($price * 70) / 100)
         ]);
         return response()->json(["confirmed" => true]);
