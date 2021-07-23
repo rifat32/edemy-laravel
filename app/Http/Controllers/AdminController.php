@@ -20,7 +20,6 @@ class AdminController extends Controller
     }
     public function confirmPayment(Request $request)
     {
-        return response()->json(["confirmed" => true]);
         //  it will update by payment id
         $id = $request->id;
         $user_id = $request->user_id;
@@ -44,7 +43,8 @@ class AdminController extends Controller
             ->update([
                 "courses" => $courses . " " . $course_slug
             ]);
-        // it will update instructors balance,
+
+        // it will update courses table total_enrollment, total_earning_course
         $coursesQuery =  DB::table('courses')
             ->where([
                 "slug" => $course_slug,
@@ -53,10 +53,18 @@ class AdminController extends Controller
 
         $coursesQuery->update([
             "total_enrollment" => $course->total_enrollment + 1,
-            "balance" => $course->balance + (($price * 70) / 100)
+            "total_earning_course" => $course->total_earning_course + (($price * 70) / 100)
         ]);
-        // it will update courses table total_enrollment, total_earning_course
-
+        // it will update instructors balance,
+        $instructorQuery =  DB::table('uses')
+            ->where([
+                "id" => $course->instructor_id,
+            ]);
+        $instructor = $instructorQuery->first();
+        $coursesQuery->update([
+            "balance" => $instructor->balance + (($price * 70) / 100)
+        ]);
+        return response()->json(["confirmed" => true]);
     }
     public function makeAdmin(Request $request)
     {
