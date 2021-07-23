@@ -22,7 +22,28 @@ class AdminController extends Controller
     {
         return response()->json(["confirmed" => true]);
         //  it will update by payment id
+        $id = $request->id;
+        $user_id = $request->user_id;
+        $course_slug = $request->course_slug;
+        $paypentQuery =   DB::table('payments')
+            ->where([
+                "id" => $id
+            ]);
+        $paypentQuery->update([
+            "status" => "success"
+        ]);
         // it will update users courses array,
+        $userQuery =  DB::table('users')
+            ->where([
+                "id" => $user_id,
+            ]);
+        $userDB = $userQuery->first();
+        $courses = $userDB->courses;
+        $userQuery
+            ->update([
+                "courses" => $courses . " " . $course_slug
+            ]);
+
         // it will update instructors balance,
         // it will update courses table total_enrollment, total_earning_course
     }

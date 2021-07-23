@@ -26,8 +26,8 @@ class CreateCoursesTable extends Migration
             $table->integer("instructor_id");
             $table->string("instructor_name");
             $table->integer("number_of_lessons")->default(0);
-            $table->integer("total_enrollment")->default(0);
-            $table->integer("total_earning_course")->default(0);
+            $table->float("total_enrollment")->default(0);
+            $table->float("total_earning_course")->default(0);
             $table->timestamps();
         });
     }
