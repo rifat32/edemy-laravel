@@ -23,7 +23,7 @@ class instructorMiddleware
         $instructor = in_array("instructor", $roleArr);
 
         if (!$instructor) {
-            return response()->json(["message" => "You are not a instructor"], 403);
+            return response()->json(["message" => "You are not an instructor"], 403);
         }
         return $next($request);
     }

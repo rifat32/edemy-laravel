@@ -7,8 +7,20 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    public function allPayment()
+    {
+        $payments =   DB::table('payments')
+            ->where([
+                "status" => "pending"
+            ])
+            ->get();
+        return response()->json([
+            "payments" => $payments
+        ], 200);
+    }
     public function confirmPayment(Request $request)
     {
+        return response()->json(["confirmed" => true]);
         //  it will update by payment id
         // it will update users courses array,
         // it will update instructors balance,

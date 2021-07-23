@@ -51,11 +51,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/make-admin', [AdminController::class, 'makeAdmin']);
     Route::get('/current-admin', [AdminController::class, 'currentAdmin']);
     // admin middleware
-    Route::middleware(["instructor"])->group(function () {
+    Route::middleware(["admin"])->group(function () {
+        Route::get('/all-payment', [AdminController::class, 'allPayment']);
+        Route::post('/confirm-payment', [AdminController::class, 'confirmPayment']);
     });
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);
 Route::get('all-courses', [ClientCourseController::class, 'allCourses']);
 Route::get('/client-courses/{slug}', [ClientCourseController::class, 'singleCourse']);
-Route::post('/confirm-payment', [AdminController::class, 'confirmPayment']);

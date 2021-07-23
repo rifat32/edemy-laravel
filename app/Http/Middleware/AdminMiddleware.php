@@ -21,7 +21,7 @@ class AdminMiddleware
 
         $adminCheck = in_array("admin", $roleArr);
         if (!$adminCheck) {
-            return response()->json(["message" => "You are not a instructor"], 403);
+            return response()->json(["message" => "You are not an admin"], 403);
         }
         return $next($request);
     }
