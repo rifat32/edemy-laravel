@@ -56,7 +56,7 @@ class AdminController extends Controller
             "total_earning_course" => $course->total_earning_course + (($price * 70) / 100)
         ]);
         // it will update instructors balance,
-        $instructorQuery =  DB::table('uses')
+        $instructorQuery =  DB::table('users')
             ->where([
                 "id" => $course->instructor_id,
             ]);
