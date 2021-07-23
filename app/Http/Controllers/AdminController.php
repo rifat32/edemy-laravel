@@ -21,18 +21,23 @@ class AdminController extends Controller
             ->where([
                 "email" => $email,
             ]);
-        $userDB =  $userQuery->get();
-        $role = $userDB[0]->role;
-        $roleArr = explode(" ", $role);
 
-        if (in_array("admin", $roleArr)) {
-            return response()->json(["ok" => true], 200);
+        $userDB =  $userQuery->first();
+        if (count((array)$userDB)) {
+            $role = $userDB->role;
+            $roleArr = explode(" ", $role);
+
+            if (in_array("admin", $roleArr)) {
+                return response()->json(["ok" => true], 200);
+            } else {
+                $userQuery
+                    ->update([
+                        'role' => $role . ' admin'
+                    ]);
+                return response()->json(["ok" => true], 200);
+            }
         } else {
-            $userQuery
-                ->update([
-                    'role' => $role . ' admin'
-                ]);
-            return response()->json(["ok" => true], 200);
+            return response()->json(["message" => "User not found"], 404);
         }
     }
     public function currentAdmin(Request $request)
