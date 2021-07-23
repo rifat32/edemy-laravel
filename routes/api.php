@@ -27,7 +27,6 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/user', [AuthController::class, 'getCurrentUser']);
     Route::post('/make-instructor', [InstructorController::class, 'makeInstructor']);
     Route::get('/current-instructor', [InstructorController::class, 'currentInstructor']);
-    Route::post('/make-admin', [AdminController::class, 'makeAdmin']);
     // instructor middleware
     Route::middleware(["instructor"])->group(function () {
         Route::post('/course/upload-image', [CourseController::class, 'uploadImage']);
@@ -49,6 +48,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/free-enrollment', [CourseController::class, 'freeEnrollment']);
     Route::post('/paid-enrollment', [CourseController::class, 'paidEnrollment']);
     Route::get('/client-courses-payment/{slug}', [CourseController::class, 'singleCoursePayment']);
+    Route::post('/make-admin', [AdminController::class, 'makeAdmin']);
+    Route::get('/current-admin', [AdminController::class, 'currentAdmin']);
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);

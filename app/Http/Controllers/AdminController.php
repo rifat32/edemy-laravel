@@ -35,4 +35,22 @@ class AdminController extends Controller
             return response()->json(["ok" => true], 200);
         }
     }
+    public function currentAdmin(Request $request)
+    {
+        return "hey";
+        $user = $request->user();
+        $userDB =  DB::table('users')
+            ->where([
+                "id" => $user->id,
+            ])->get();
+        $role = $userDB[0]->role;
+        $roleArr = explode(" ", $role);
+
+        if (in_array("admin", $roleArr)) {
+            $userDB[0]->role = $roleArr;
+            return response()->json(["ok" => true, "user" => $userDB[0]], 200);
+        } else {
+            return response()->json(["ok" => false], 403);
+        }
+    }
 }
