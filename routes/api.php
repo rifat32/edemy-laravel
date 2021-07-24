@@ -59,6 +59,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/user-courses', [UserController::class, 'allCourses']);
     Route::get('/user-courses/{slug}', [UserController::class, 'singleCourse']);
     Route::post('/complete-lesson', [UserController::class, 'completeLesson']);
+    Route::post('/list-completed', [UserController::class, 'listCompleted']);
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);
