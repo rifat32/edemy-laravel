@@ -192,7 +192,7 @@ class LessonController extends Controller
                     "id" => $lesson[0]->course_id
                 ]);
             $course =   $courseQuery->first();
-            if ($course->number_of_lessons < 5) {
+            if ($course->number_of_lessons <= 5) {
                 $courseQuery
                     ->update([
                         "number_of_lessons" => $course->number_of_lessons - 1,
