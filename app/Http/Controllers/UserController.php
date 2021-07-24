@@ -28,6 +28,7 @@ class UserController extends Controller
             $courses = DB::table('courses')
                 ->where([
                     "slug" => $slug,
+                    "published" => true
                 ])
                 ->first();
             if (count((array)$courses)) {

@@ -192,11 +192,21 @@ class LessonController extends Controller
                     "id" => $lesson[0]->course_id
                 ]);
             $course =   $courseQuery->first();
-            $courseQuery
-                ->update([
-                    "number_of_lessons" => $course->number_of_lessons - 1,
-                    "updated_at" => \Carbon\Carbon::now(),
-                ]);
+            if ($course->number_of_lessons < 5) {
+                $courseQuery
+                    ->update([
+                        "number_of_lessons" => $course->number_of_lessons - 1,
+                        "published" => false,
+                        "updated_at" => \Carbon\Carbon::now(),
+                    ]);
+            } else {
+                $courseQuery
+                    ->update([
+                        "number_of_lessons" => $course->number_of_lessons - 1,
+                        "updated_at" => \Carbon\Carbon::now(),
+                    ]);
+            }
+
             $lessonQuery->delete();
 
             $success =   Storage::disk('google')->delete($videoId);
