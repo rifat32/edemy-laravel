@@ -75,6 +75,21 @@ class UserController extends Controller
             return response()->json(["ok" => true]);
         }
     }
+    public function incompleteLesson(Request $request)
+    {
+        // complete__lessons
+        $user = $request->user();
+        $course_slug = $request->course_slug;
+        $lesson_id = $request->lesson_id;
+        DB::table('complete__lessons')
+            ->where([
+                "course_slug" => $course_slug,
+                "lesson_id" => $lesson_id,
+                "user_id" => $user->id,
+            ])
+            ->delete();
+        return response()->json(["ok" => true]);
+    }
     public function listCompleted(Request $request)
     {
         $user = $request->user();
