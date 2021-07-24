@@ -8,6 +8,7 @@ use App\Http\Controllers\ClientCourseController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,8 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('/all-payment', [AdminController::class, 'allPayment']);
         Route::post('/confirm-payment', [AdminController::class, 'confirmPayment']);
     });
+    Route::get('/user-courses', [UserController::class, 'allCourses']);
+    Route::get('/user-courses/{slug}', [UserController::class, 'singleCourse']);
 });
 Route::post('/send-token', [AuthController::class, 'sendToken']);
 Route::post('/verify-token', [AuthController::class, 'verifyToken']);
