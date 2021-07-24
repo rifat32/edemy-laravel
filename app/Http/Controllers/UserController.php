@@ -50,4 +50,29 @@ class UserController extends Controller
             return response()->json(["message" => "course not found"], 404);
         }
     }
+    public function completeLesson(Request $request)
+    {
+        // complete__lessons
+        $user = $request->user();
+        $course_slug = $request->course_slug;
+        $lesson_id = $request->lesson_id;
+
+        $complete =  DB::table('complete__lessons')
+            ->where([
+                "course_slug" => $course_slug,
+                "lesson_id" => $lesson_id,
+                "user_id" => $user->id,
+            ])
+            ->first();
+        if (count((array)$complete)) {
+            return response()->json(["ok" => true]);
+        } else {
+            DB::table('complete__lessons')->insert([
+                "course_slug" => $course_slug,
+                "lesson_id" => $lesson_id,
+                "user_id" => $user->id,
+            ]);
+            return response()->json(["ok" => true]);
+        }
+    }
 }
