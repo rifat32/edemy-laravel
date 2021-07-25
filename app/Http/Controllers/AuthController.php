@@ -60,6 +60,8 @@ class AuthController extends Controller
         $role = $userDB->role;
         $roleArr = explode(" ", $role);
         $userDB->role = $roleArr;
+        $userDB->password_reset_token = "";
+
         return response()->json(["ok" => true, "user" => $userDB], 200);
     }
     public function sendToken(Request $request)
