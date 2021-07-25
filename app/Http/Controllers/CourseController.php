@@ -304,6 +304,16 @@ class CourseController extends Controller
     public function freeEnrollment(Request $request)
     {
         $slug = $request->slug;
+        $user = $request->user();
+        $checkInstructor =  DB::table('courses')
+            ->where([
+                "slug" => $slug,
+                "instructor_id" => $user->id
+            ])->first();
+
+        if (count((array)$checkInstructor)) {
+            return response()->json(["message" => "You can not enroll to your own course"], 409);
+        }
 
         $courseQuery =   DB::table('courses')
             ->where([
@@ -311,7 +321,7 @@ class CourseController extends Controller
             ]);
         $course  =    $courseQuery->first();
         if (!$course->paid) {
-            $user = $request->user();
+
             $userQuery =  DB::table('users')
                 ->where([
                     "id" => $user->id,
@@ -344,6 +354,16 @@ class CourseController extends Controller
     public function paidEnrollment(Request $request)
     {
         $slug = $request->slug;
+        $user = $request->user();
+        $checkInstructor =  DB::table('courses')
+            ->where([
+                "slug" => $slug,
+                "instructor_id" => $user->id
+            ])->first();
+
+        if (count((array)$checkInstructor)) {
+            return response()->json(["message" => "You can not enroll to your own course"], 409);
+        }
 
         $courseQuery =   DB::table('courses')
             ->where([
@@ -351,7 +371,6 @@ class CourseController extends Controller
             ]);
         $course  =    $courseQuery->first();
         if ($course->paid) {
-            $user = $request->user();
             $userQuery =  DB::table('users')
                 ->where([
                     "id" => $user->id,
