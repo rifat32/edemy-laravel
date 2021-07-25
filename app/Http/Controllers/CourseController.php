@@ -102,7 +102,8 @@ class CourseController extends Controller
     public function updateCourse(Request $request)
     {
         $slug = $request->slug;
-        $user_id = $request->user()->id;
+        $user = $request->user();
+        $user_id = $user->id;
         $courseQuery = DB::table('courses')
             ->where([
                 "instructor_id" => $user_id,
@@ -159,7 +160,6 @@ class CourseController extends Controller
                     $courseQuery
                         ->update([
                             "name" => $name,
-                            "slug" => $slugNew,
                             "description" => $description,
                             "price" => $price,
                             "image" => $image,
@@ -167,6 +167,8 @@ class CourseController extends Controller
                             "paid" => $paid,
                             "updated_at" => \Carbon\Carbon::now(),
                         ]);
+                    //    aaaaaaaaaaaaaaaaaaaaaaaaaaa
+
                     return response()->json([
                         "message" => "course has been updated successfully"
                     ], 204);
