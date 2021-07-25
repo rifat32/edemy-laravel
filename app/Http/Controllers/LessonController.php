@@ -218,18 +218,18 @@ class LessonController extends Controller
     public function drag(Request $request)
     {
         $user = $request->user();
-        foreach ($request->lessonsArr as $lesson) {
-            DB::table('lessons')
-                ->where([
-                    'id' => $lesson->id,
-                    "instructor_id" => $user->id
-                ])
-                ->update(
-                    [
-                        "custom_id" => $lesson->custom_id
-                    ]
-                );
-        }
-        return response()->json(["ok" => true]);
+        // foreach ($request->lessonsArr as $lesson) {
+        //     DB::table('lessons')
+        //         ->where([
+        //             'id' => $lesson->id,
+        //             "instructor_id" => $user->id
+        //         ])
+        //         ->update(
+        //             [
+        //                 "custom_id" => $lesson->custom_id
+        //             ]
+        //         );
+        // }
+        return response()->json(["ok" => true, "lessonsArr" => $request->lessonsArr, "firstLessong" => $request->lessonsArr[0]['id']]);
     }
 }
