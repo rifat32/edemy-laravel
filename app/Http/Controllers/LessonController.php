@@ -215,4 +215,21 @@ class LessonController extends Controller
             return response()->json(["message" => "do not cheat"], 401);
         }
     }
+    public function drag(Request $request)
+    {
+        $user = $request->user();
+        foreach ($request->lessonsArr as $lesson) {
+            DB::table('lessons')
+                ->where([
+                    'id' => $lesson->id,
+                    "instructor_id" => $user->id
+                ])
+                ->update(
+                    [
+                        "custom_id" => $lesson->custom_id
+                    ]
+                );
+        }
+        return response()->json(["ok" => true]);
+    }
 }

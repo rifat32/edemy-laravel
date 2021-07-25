@@ -25,6 +25,7 @@ use App\Http\Controllers\UserController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:api'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'getCurrentUser']);
     Route::post('/make-instructor', [InstructorController::class, 'makeInstructor']);
     Route::get('/current-instructor', [InstructorController::class, 'currentInstructor']);
@@ -41,6 +42,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::put('/course/lesson', [LessonController::class, 'updateLesson']);
         Route::post('/number-of-lesson', [CourseController::class, 'numLesson']);
         Route::put('/course', [CourseController::class, 'updateCourse']);
+        Route::put('/drag', [LessonController::class, 'drag']);
         Route::post('/lesson/delete ', [LessonController::class, 'deleteLesson']);
         Route::put('/course/publish', [CourseController::class, 'updatePublish']);
         Route::get('/courses/{slug}', [CourseController::class, 'singleCourse']);

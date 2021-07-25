@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -118,6 +119,12 @@ class AuthController extends Controller
             } else {
                 return response()->json(["message" => "invalid token"], 401);
             }
+        }
+    }
+    public function logout()
+    {
+        if (Auth::check()) {
+            Auth::user()->AauthAcessToken()->delete();
         }
     }
 }

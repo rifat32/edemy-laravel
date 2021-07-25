@@ -15,6 +15,9 @@ class UserController extends Controller
         $coursesArr = explode(" ", $userCourses);
         $courses = DB::table('courses')
             ->whereIn("slug", $coursesArr)
+            ->where([
+                "published" => true
+            ])
             ->get();
         return response()->json(["courses" => $courses]);
     }

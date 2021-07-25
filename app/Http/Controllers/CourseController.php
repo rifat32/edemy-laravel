@@ -326,6 +326,15 @@ class CourseController extends Controller
                     ->update([
                         "courses" => $courses . " " . $slug
                     ]);
+                // it will update courses table total_enrollment, total_earning_course
+                $coursesQuery =  DB::table('courses')
+                    ->where([
+                        "slug" => $slug,
+                    ]);
+                $course = $coursesQuery->first();
+                $coursesQuery->update([
+                    "total_enrollment" => $course->total_enrollment + 1
+                ]);
                 return response()->json(["ok" => true]);
             }
         } else {
