@@ -226,7 +226,7 @@ class LessonController extends Controller
                 ])
                 ->update(
                     [
-                        "custom_id" => $lesson->custom_id
+                        "custom_id" => $lesson["custom_id"]
                     ]
                 );
         }
