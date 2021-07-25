@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Models\OauthAccessToken;
 
 class User extends Authenticatable
 {
@@ -43,6 +44,6 @@ class User extends Authenticatable
     ];
     public function AauthAcessToken()
     {
-        return $this->hasMany('\App\Http\Models\OauthAccessToken');
+        return $this->hasMany(OauthAccessToken::class);
     }
 }
