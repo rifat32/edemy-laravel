@@ -125,6 +125,7 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             Auth::user()->AauthAcessToken()->delete();
+            return response()->json(["ok" => true]);
         }
     }
 }
