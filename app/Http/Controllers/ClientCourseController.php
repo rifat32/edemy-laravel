@@ -13,6 +13,7 @@ class ClientCourseController extends Controller
             ->where([
                 "published" => true
             ])
+            ->orderBy("total_enrollment")
             ->get();
         return response()->json([
             "courses" => $courses
