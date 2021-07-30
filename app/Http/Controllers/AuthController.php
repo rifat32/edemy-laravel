@@ -39,7 +39,7 @@ class AuthController extends Controller
         ]);
 
         if (!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials', 'status' => 422]);
+            return response(['message' => 'Invalid Credentials', 'status' => 422], 422);
         }
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
